@@ -1,7 +1,8 @@
-<div class="container">
-  <h1 class="my-4">Appointments</h1>
-  <table class="table table-hover table-bordered">
-   <thead class="table-dark">
+<div class="container mt-4">
+  <h1 class="mb-4">Appointments</h1>
+
+  <table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
       <tr>
         <th>Date</th>
         <th>Pet</th>
@@ -16,22 +17,25 @@
         <tr>
           <td><%= appointment.date.strftime("%B %d, %Y - %H:%M") %></td>
           <td><%= appointment.pet.name %></td>
-          <td><%= "Dr(a). #{appointment.vet.last_name}" %></td>
+          <td>Dr(a). <%= appointment.vet.last_name %></td>
           <td><%= appointment.reason %></td>
           <td>
-            <%# Usamos lógica simple aquí por si no has creado el método en el modelo aún %>
-            <span class="badge <%= appointment.status == 2 ? 'bg-success' : 'bg-warning' %>">
-              <%= case appointment.status
-                  when 0 then "Scheduled"
-                  when 1 then "In Progress"
-                  when 2 then "Completed"
-                  when 3 then "Cancelled"
-                  else "Unknown"
-                  end %>
-            </span>
+            <% # Aquí corregimos el problema del "Unknown" %>
+            <% case appointment.status %>
+            <% when 'scheduled' %>
+              <span class="badge bg-primary">Scheduled</span>
+            <% when 'in_progress' %>
+              <span class="badge bg-warning text-dark">In Progress</span>
+            <% when 'completed' %>
+              <span class="badge bg-success">Completed</span>
+            <% when 'cancelled' %>
+              <span class="badge bg-danger">Cancelled</span>
+            <% else %>
+              <span class="badge bg-secondary"><%= appointment.status.to_s.humanize %></span>
+            <% end %>
           </td>
           <td>
-            <%= link_to "View Details", appointment_path(appointment), class: "btn btn-sm btn-outline-info" %>
+            <%= link_to "View Details", appointment_path(appointment), class: "btn btn-outline-info btn-sm" %>
           </td>
         </tr>
       <% end %>

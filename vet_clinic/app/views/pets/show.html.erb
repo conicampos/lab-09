@@ -1,28 +1,18 @@
 <div class="container my-4">
-  <div class="card shadow-sm mb-4">
-    <div class="card-body">
-      <h2 class="card-title text-success"><%= @pet.name %></h2>
-      <hr>
-      <p><strong>Species:</strong> <%= @pet.species %></p>
-      <p><strong>Breed:</strong> <%= @pet.breed %></p>
-      <p><strong>Date of Birth:</strong> <%= @pet.date_of_birth.strftime("%B %d, %Y") %></p>
-      <p><strong>Weight:</strong> <%= @pet.weight %> kg</p>
-      <p><strong>Owner:</strong> <%= link_to "#{@pet.owner.first_name} #{@pet.owner.last_name}", owner_path(@pet.owner) %></p>
-    </div>
-  </div>
+  <h2><%= @pet.name %></h2>
+  <p>Owner: <%= @pet.owner.first_name %></p>
 
-  <h3>Appointments</h3>
-  <table class="table table-sm mt-3">
-    <thead><tr><th>Date</th><th>Reason</th><th>Link</th></tr></thead>
-    <tbody>
-      <% @pet.appointments.each do |appt| %>
-        <tr>
-          <td><%= appt.date.strftime("%B %d, %Y") %></td>
-          <td><%= appt.reason %></td>
-          <td><%= link_to "View Appointment", appointment_path(appt) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= link_to "Back to Pets", pets_path, class: "btn btn-outline-secondary mt-3" %>
-</div> 
+  <h3 class="mt-4">Upcoming Appointments</h3>
+  <ul class="list-group">
+    <% @pet.appointments.upcoming.each do |appt| %>
+      <li class="list-group-item"><%= appt.date.strftime("%B %d, %Y") %> - <%= appt.reason %></li>
+    <% end %>
+  </ul>
+
+  <h3 class="mt-4">Past Appointments</h3>
+  <ul class="list-group">
+    <% @pet.appointments.past.each do |appt| %>
+      <li class="list-group-item text-muted"><%= appt.date.strftime("%B %d, %Y") %> - <%= appt.reason %></li>
+    <% end %>
+  </ul>
+</div>
