@@ -1,0 +1,10 @@
+<% # Nota: Usamos un array [@parent, @child] para rutas anidadas %>
+<%= form_with(model: [@appointment, treatment]) do |f| %>
+  <%= render 'shared/error_messages', object: treatment %>
+  <div class="mb-3"><%= f.label :name, class: "form-label" %><%= f.text_field :name, class: "form-control" %></div>
+  <div class="mb-3"><%= f.label :medication, class: "form-label" %><%= f.text_field :medication, class: "form-control" %></div>
+  <div class="mb-3"><%= f.label :dosage, class: "form-label" %><%= f.text_field :dosage, class: "form-control" %></div>
+  <div class="mb-3"><%= f.label :notes, class: "form-label" %><%= f.text_area :notes, class: "form-control" %></div>
+  <div class="mb-3"><%= f.label :administered_at, class: "form-label" %><%= f.datetime_field :administered_at, class: "form-control" %></div>
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

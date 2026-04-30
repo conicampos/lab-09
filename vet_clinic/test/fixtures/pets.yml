@@ -1,1 +1,15 @@
+one:
+  name: "Rex"
+  species: "dog"
+  breed: "German Shepherd"
+  date_of_birth: 2020-01-01
+  weight: 25.5
+  owner: one
 
+two:
+  name: "Mittens"
+  species: "cat"
+  breed: "Persian"
+  date_of_birth: 2021-05-10
+  weight: 4.2
+  owner: two 

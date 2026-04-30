@@ -1,24 +1,26 @@
-<div class="container">
-  <h1 class="my-4">Owners</h1>
-  <table class="table table-hover table-bordered">
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Owners</h1>
+    <%= link_to "New Owner", new_owner_path, class: "btn btn-primary" %>
+  </div>
+
+  <table class="table table-striped">
     <thead class="table-dark">
       <tr>
-        <th>Full Name</th>
+        <th>Name</th>
         <th>Email</th>
-        <th>Phone</th>
-        <th>Number of Pets</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @owners.each do |owner| %>
         <tr>
-          <td><%= "#{owner.first_name} #{owner.last_name}" %></td>
+          <td><%= owner.first_name %> <%= owner.last_name %></td>
           <td><%= owner.email %></td>
-          <td><%= owner.phone %></td>
-          <td><span class="badge bg-primary"><%= owner.pets.count %></span></td>
-          <td>
-            <%= link_to "View Details", owner_path(owner), class: "btn btn-sm btn-outline-info" %>
+          <td class="d-flex gap-2">
+            <%= link_to "Show", owner, class: "btn btn-sm btn-info" %>
+            <%= link_to "Edit", edit_owner_path(owner), class: "btn btn-sm btn-warning" %>
+            <%= button_to "Delete", owner, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
           </td>
         </tr>
       <% end %>

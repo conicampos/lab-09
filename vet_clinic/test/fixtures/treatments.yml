@@ -1,1 +1,15 @@
+one:
+  name: "Rabies Vaccine"
+  medication: "Rabigen"
+  dosage: "1ml"
+  notes: "Applied to left leg"
+  administered_at: <%= Time.now %>
+  appointment: one
 
+two:
+  name: "Pain Relief"
+  medication: "Meloxicam"
+  dosage: "0.5mg"
+  notes: "Post-surgery"
+  administered_at: <%= Time.now - 1.day %>
+  appointment: two

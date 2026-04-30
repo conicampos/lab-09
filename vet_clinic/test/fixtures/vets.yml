@@ -1,0 +1,11 @@
+one:
+  first_name: "Gregory"
+  last_name: "House"
+  email: "house@clinic.com"
+  specialization: "Diagnostics"
+
+two:
+  first_name: "Allison"
+  last_name: "Cameron"
+  email: "cameron@clinic.com"
+  specialization: "Surgery"

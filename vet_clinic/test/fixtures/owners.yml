@@ -1,0 +1,11 @@
+one:
+  first_name: "Juan"
+  last_name: "Perez"
+  email: "juan@gmail.com"
+  phone: "123456789"
+
+two:
+  first_name: "Maria"
+  last_name: "Gomez"
+  email: "maria@gmail.com"
+  phone: "987654321"

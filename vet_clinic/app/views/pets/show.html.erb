@@ -1,18 +1,44 @@
-<div class="container my-4">
-  <h2><%= @pet.name %></h2>
-  <p>Owner: <%= @pet.owner.first_name %></p>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Pet Profile: <%= @pet.name %></h2>
+      <div>
+        <%= link_to "Edit Pet", edit_pet_path(@pet), class: "btn btn-light btn-sm" %>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-sm-3 fw-bold">Species / Breed:</div>
+        <div class="col-sm-9"><%= @pet.species.capitalize %> / <%= @pet.breed %></div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-3 fw-bold">Owner:</div>
+        <div class="col-sm-9"><%= link_to "#{@pet.owner.first_name} #{@pet.owner.last_name}", owner_path(@pet.owner) %></div>
+      </div>
 
-  <h3 class="mt-4">Upcoming Appointments</h3>
-  <ul class="list-group">
-    <% @pet.appointments.upcoming.each do |appt| %>
-      <li class="list-group-item"><%= appt.date.strftime("%B %d, %Y") %> - <%= appt.reason %></li>
-    <% end %>
-  </ul>
-
-  <h3 class="mt-4">Past Appointments</h3>
-  <ul class="list-group">
-    <% @pet.appointments.past.each do |appt| %>
-      <li class="list-group-item text-muted"><%= appt.date.strftime("%B %d, %Y") %> - <%= appt.reason %></li>
-    <% end %>
-  </ul>
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="text-primary">Upcoming Appointments</h4>
+          <ul class="list-group">
+            <% @pet.appointments_upcoming.each do |app| %>
+              <li class="list-group-item"><%= app.date.strftime("%d/%m/%Y") %> - <%= app.reason %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h4 class="text-muted">Past Appointments</h4>
+          <ul class="list-group">
+            <% @pet.appointments_past.each do |app| %>
+              <li class="list-group-item list-group-item-light"><%= app.date.strftime("%d/%m/%Y") %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <%= link_to "Back to Pets", pets_path, class: "btn btn-secondary" %>
+      <%= button_to "Delete Pet", @pet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
 </div>

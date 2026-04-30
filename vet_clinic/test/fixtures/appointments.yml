@@ -1,1 +1,13 @@
+one:
+  date: <%= DateTime.now + 1.day %>
+  reason: "Annual checkup"
+  status: scheduled
+  pet: one
+  vet: one
 
+two:
+  date: <%= DateTime.now - 2.days %>
+  reason: "Emergency surgery"
+  status: completed
+  pet: two
+  vet: two

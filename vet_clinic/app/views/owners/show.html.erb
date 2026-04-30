@@ -1,22 +1,43 @@
-<div class="container my-4">
-  <div class="card shadow-sm mb-4">
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Owner Details</h2>
+      <div>
+        <%= link_to "Edit Owner", edit_owner_path(@owner), class: "btn btn-light btn-sm" %>
+      </div>
+    </div>
     <div class="card-body">
-      <h2 class="card-title text-primary"><%= @owner.first_name %> <%= @owner.last_name %></h2>
+      <div class="row mb-3">
+        <div class="col-sm-3 fw-bold">Full Name:</div>
+        <div class="col-sm-9"><%= @owner.first_name %> <%= @owner.last_name %></div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-3 fw-bold">Email:</div>
+        <div class="col-sm-9"><%= @owner.email %></div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-3 fw-bold">Phone:</div>
+        <div class="col-sm-9"><%= @owner.phone %></div>
+      </div>
+
       <hr>
-      <p><strong>Email:</strong> <%= @owner.email %></p>
-      <p><strong>Phone:</strong> <%= @owner.phone %></p>
-      <p><strong>Address:</strong> <%= @owner.address %></p>
+      <h4>Pets</h4>
+      <% if @owner.pets.any? %>
+        <ul class="list-group mb-3">
+          <% @owner.pets.each do |pet| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= pet.name %> (<%= pet.species %>)
+              <%= link_to "View Pet", pet_path(pet), class: "btn btn-sm btn-outline-primary" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">This owner has no pets registered.</p>
+      <% end %>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <%= link_to "Back to Owners", owners_path, class: "btn btn-secondary" %>
+      <%= button_to "Delete Owner", @owner, method: :delete, data: { turbo_confirm: "Are you sure? This will delete all associated pets and appointments." }, class: "btn btn-danger" %>
     </div>
   </div>
-
-  <h3>Pets</h3>
-  <div class="list-group">
-    <% @owner.pets.each do |pet| %>
-      <%= link_to pet_path(pet), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
-        <%= pet.name %>
-        <span class="badge bg-secondary rounded-pill"><%= pet.species %></span>
-      <% end %>
-    <% end %>
-  </div>
-  <%= link_to "Back to Owners", owners_path, class: "btn btn-outline-secondary mt-3" %>
-</div> 
+</div>

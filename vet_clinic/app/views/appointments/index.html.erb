@@ -1,13 +1,14 @@
 <div class="container mt-4">
-  <h1 class="mb-4">Appointments</h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Appointments</h1>
+    <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary" %>
+  </div>
 
-  <table class="table table-striped table-hover shadow-sm">
+  <table class="table table-striped">
     <thead class="table-dark">
       <tr>
         <th>Date</th>
         <th>Pet</th>
-        <th>Vet</th>
-        <th>Reason</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
@@ -17,28 +18,14 @@
         <tr>
           <td><%= appointment.date.strftime("%B %d, %Y - %H:%M") %></td>
           <td><%= appointment.pet.name %></td>
-          <td>Dr(a). <%= appointment.vet.last_name %></td>
-          <td><%= appointment.reason %></td>
-          <td>
-            <% # Aquí corregimos el problema del "Unknown" %>
-            <% case appointment.status %>
-            <% when 'scheduled' %>
-              <span class="badge bg-primary">Scheduled</span>
-            <% when 'in_progress' %>
-              <span class="badge bg-warning text-dark">In Progress</span>
-            <% when 'completed' %>
-              <span class="badge bg-success">Completed</span>
-            <% when 'cancelled' %>
-              <span class="badge bg-danger">Cancelled</span>
-            <% else %>
-              <span class="badge bg-secondary"><%= appointment.status.to_s.humanize %></span>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to "View Details", appointment_path(appointment), class: "btn btn-outline-info btn-sm" %>
+          <td><span class="badge bg-secondary"><%= appointment.status.humanize %></span></td>
+          <td class="d-flex gap-2">
+            <%= link_to "Show", appointment, class: "btn btn-sm btn-info" %>
+            <%= link_to "Edit", edit_appointment_path(appointment), class: "btn btn-sm btn-warning" %>
+            <%= button_to "Delete", appointment, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-</div> 
+</div>
