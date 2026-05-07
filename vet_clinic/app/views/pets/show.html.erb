@@ -7,6 +7,21 @@
       </div>
     </div>
     <div class="card-body">
+      <%# --- SECCIÓN DE FOTO (PASO A.6) --- %>
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <% if @pet.photo.attached? %>
+            <%= image_tag @pet.photo, class: "img-fluid rounded shadow-sm border", style: "max-width: 300px;" %>
+          <% else %>
+            <div class="d-inline-block bg-light border rounded p-5 text-muted">
+              <i class="bi bi-camera" style="font-size: 2rem;"></i><br>
+              No photo available
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <%# ---------------------------------- %>
+
       <div class="row mb-3">
         <div class="col-sm-3 fw-bold">Species / Breed:</div>
         <div class="col-sm-9"><%= @pet.species.capitalize %> / <%= @pet.breed %></div>
@@ -20,17 +35,25 @@
       <div class="row">
         <div class="col-md-6">
           <h4 class="text-primary">Upcoming Appointments</h4>
-          <ul class="list-group">
-            <% @pet.appointments_upcoming.each do |app| %>
-              <li class="list-group-item"><%= app.date.strftime("%d/%m/%Y") %> - <%= app.reason %></li>
+          <ul class="list-group mb-3">
+            <% if @pet.appointments_upcoming.any? %>
+              <% @pet.appointments_upcoming.each do |app| %>
+                <li class="list-group-item"><%= app.date.strftime("%d/%m/%Y") %> - <%= app.reason %></li>
+              <% end %>
+            <% else %>
+              <li class="list-group-item text-muted small">No upcoming appointments</li>
             <% end %>
           </ul>
         </div>
         <div class="col-md-6">
           <h4 class="text-muted">Past Appointments</h4>
           <ul class="list-group">
-            <% @pet.appointments_past.each do |app| %>
-              <li class="list-group-item list-group-item-light"><%= app.date.strftime("%d/%m/%Y") %></li>
+            <% if @pet.appointments_past.any? %>
+              <% @pet.appointments_past.each do |app| %>
+                <li class="list-group-item list-group-item-light"><%= app.date.strftime("%d/%m/%Y") %></li>
+              <% end %>
+            <% else %>
+              <li class="list-group-item text-muted small">No past appointments</li>
             <% end %>
           </ul>
         </div>

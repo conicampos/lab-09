@@ -4,9 +4,10 @@
     <%= link_to "New Pet", new_pet_path, class: "btn btn-primary" %>
   </div>
 
-  <table class="table table-striped">
+  <table class="table table-striped align-middle">
     <thead class="table-dark">
       <tr>
+        <th style="width: 80px;">Photo</th> <%# Nueva columna %>
         <th>Name</th>
         <th>Species</th>
         <th>Owner</th>
@@ -16,13 +17,27 @@
     <tbody>
       <% @pets.each do |pet| %>
         <tr>
+          <%# --- SECCIÓN DE MINIATURA (PASO A.7) --- %>
+          <td>
+            <% if pet.photo.attached? %>
+              <%= image_tag pet.photo.variant(resize_to_fill: [60, 60]), class: "rounded shadow-sm border" %>
+            <% else %>
+              <div class="bg-light rounded d-flex align-items-center justify-content-center border" style="width: 60px; height: 60px; color: #adb5bd; font-size: 0.7rem; text-align: center;">
+                No Photo
+              </div>
+            <% end %>
+          </td>
+          <%# --------------------------------------- %>
+          
           <td><%= pet.name %></td>
           <td><%= pet.species %></td>
           <td><%= pet.owner.last_name %></td>
-          <td class="d-flex gap-2">
-            <%= link_to "Show", pet, class: "btn btn-sm btn-info" %>
-            <%= link_to "Edit", edit_pet_path(pet), class: "btn btn-sm btn-warning" %>
-            <%= button_to "Delete", pet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+          <td>
+            <div class="d-flex gap-2">
+              <%= link_to "Show", pet, class: "btn btn-sm btn-info" %>
+              <%= link_to "Edit", edit_pet_path(pet), class: "btn btn-sm btn-warning" %>
+              <%= button_to "Delete", pet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </div>
           </td>
         </tr>
       <% end %>

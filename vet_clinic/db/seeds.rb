@@ -1,49 +1,67 @@
-
+# Limpiar datos previos para evitar duplicados
+puts "Cleaning database..."
 Treatment.destroy_all
 Appointment.destroy_all
 Pet.destroy_all
 Vet.destroy_all
 Owner.destroy_all
 
+puts "Creating owners..."
+o1 = Owner.create!(first_name: "Coni", last_name: "Campos", email: "coni@example.com", phone: "123456")
+o2 = Owner.create!(first_name: "Juan", last_name: "Perez", email: "juan@example.com", phone: "654321")
 
+puts "Creating vets..."
+v1 = Vet.create!(first_name: "Gregory", last_name: "House", email: "house@clinic.com", specialization: "Diagnostics")
 
-# 1. Create Owners
-o1 = Owner.create!(first_name: "John", last_name: "Doe", email: "john.doe@example.com", phone: "555-1234")
-o2 = Owner.create!(first_name: "Jane", last_name: "Smith", email: "jane.smith@example.com", phone: "555-5678")
-o3 = Owner.create!(first_name: "Coni", last_name: "Campos", email: "coni.campos@example.com", phone: "555-9999")
+puts "Creating pets..."
+# pet1: Perro
+p1 = Pet.create!(name: "Rex", species: "dog", breed: "German Shepherd", owner: o1)
+# pet2: Gato
+p2 = Pet.create!(name: "Mittens", species: "cat", breed: "Persian", owner: o1)
+# pet3: Gato
+p3 = Pet.create!(name: "Luna", species: "cat", breed: "Siamese", owner: o2)
 
-# 2. Create Pets (with new whitelist)
-p1 = Pet.create!(name: "Firulais", species: "dog", breed: "Quiltro", date_of_birth: 3.years.ago, weight: 25.5, owner: o1)
-p2 = Pet.create!(name: "Mittens", species: "cat", breed: "Siamese", date_of_birth: 2.years.ago, weight: 4.5, owner: o2)
-p3 = Pet.create!(name: "Bugs", species: "rabbit", breed: "Holland Lop", date_of_birth: 1.year.ago, weight: 2.1, owner: o1)
-p4 = Pet.create!(name: "Tweety", species: "bird", breed: "Canary", date_of_birth: 4.years.ago, weight: 0.2, owner: o3)
+puts "Attaching photos from db/seeds/pets/..."
+# Mapeo de mascotas a sus archivos correspondientes
+pet_photos = [
+  { record: p1, file: "pet1.jpeg" },
+  { record: p2, file: "pet2.jpeg" },
+  { record: p3, file: "pet3.jpeg" }
+]
 
-# 3. Create Vets
-v1 = Vet.create!(first_name: "Alice", last_name: "Zuniga", email: "alice.vet@clinic.com", specialization: "General Medicine")
-v2 = Vet.create!(first_name: "Charlie", last_name: "Soto", email: "charlie.vet@clinic.com", specialization: "Surgery")
+pet_photos.each do |item|
+  path = Rails.root.join("db", "seeds", "pets", item[:file])
+  
+  if File.exist?(path)
+    item[:record].photo.attach(
+      io: File.open(path), 
+      filename: item[:file], 
+      content_type: "image/jpeg"
+    )
+    puts "✅ Photo #{item[:file]} attached to #{item[:record].name}"
+  else
+    puts "❌ Error: File not found at #{path}"
+  end
+end
 
-
-
-# Past and Completed (Will show in "Past Appointments")
-a1 = Appointment.create!(date: 2.days.ago, reason: "Rabies Vaccination", status: "completed", pet: p2, vet: v2)
-a2 = Appointment.create!(date: 5.days.ago, reason: "Annual Checkup", status: "completed", pet: p1, vet: v1)
-a3 = Appointment.create!(date: 10.days.ago, reason: "Ear cleaning", status: "completed", pet: p3, vet: v1)
-
-# Upcoming and Scheduled (Will show in "Upcoming Appointments")
-a4 = Appointment.create!(date: 1.day.from_now, reason: "Dental Checkup", status: "scheduled", pet: p1, vet: v1)
-a5 = Appointment.create!(date: 4.days.from_now, reason: "Follow-up surgery", status: "scheduled", pet: p4, vet: v2)
-a6 = Appointment.create!(date: 1.week.from_now, reason: "Wound Review", status: "scheduled", pet: p3, vet: v1)
-
-# Current and In-Progress
-a7 = Appointment.create!(date: Time.now, reason: "Emergency - broken leg", status: "in_progress", pet: p2, vet: v2)
-
-# 5. Create Treatments
-Treatment.create!(
-  name: "General Cleaning", 
-  medication: "None", 
-  dosage: "N/A", 
-  notes: "Patient is healthy", 
-  administered_at: 2.days.ago, 
-  appointment: a1
+puts "Creating appointments..."
+a1 = Appointment.create!(
+  date: DateTime.now + 1.day, 
+  reason: "General Checkup", 
+  status: "scheduled", 
+  pet: p1, 
+  vet: v1
 )
 
+puts "Creating treatments with Action Text..."
+# B.2 & C.1: Notas con formato enriquecido
+t1 = Treatment.create!(
+  name: "Annual Vaccination",
+  medication: "Rabigen Plus",
+  dosage: "1ml",
+  administered_at: Time.now,
+  appointment: a1,
+  clinical_notes: "<h1>Clinical Report</h1><p>The patient was <strong>calm</strong> during the procedure.</p><ul><li>Monitor temperature for 24h</li><li>Keep hydrated</li><li>Next booster in 12 months</li></ul>"
+)
+
+puts "Seeds finished successfully! 🐾"

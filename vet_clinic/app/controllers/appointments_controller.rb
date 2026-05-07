@@ -6,6 +6,8 @@ class AppointmentsController < ApplicationController
   end
 
   def show
+    # B.3: Eager load para evitar N+1 en las notas enriquecidas
+    @appointment = Appointment.includes(treatments: :rich_text_clinical_notes).find(params[:id])
   end
 
   def new
