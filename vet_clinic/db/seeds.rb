@@ -64,4 +64,30 @@ t1 = Treatment.create!(
   clinical_notes: "<h1>Clinical Report</h1><p>The patient was <strong>calm</strong> during the procedure.</p><ul><li>Monitor temperature for 24h</li><li>Keep hydrated</li><li>Next booster in 12 months</li></ul>"
 )
 
+puts "Creating users..."
+# Admin
+User.find_or_create_by!(email: 'admin@vetclinic.com') do |u|
+  u.first_name = "Admin"
+  u.last_name = "User"
+  u.password = "password123"
+  u.role = :admin
+end
+
+# Vet
+User.find_or_create_by!(email: 'vet@vetclinic.com') do |u|
+  u.first_name = "Gregory"
+  u.last_name = "House"
+  u.password = "password123"
+  u.role = :vet
+end
+
+# Owner
+User.find_or_create_by!(email: 'owner@vetclinic.com') do |u|
+  u.first_name = "Coni"
+  u.last_name = "Campos"
+  u.password = "password123"
+  u.role = :owner
+end
+puts "Users created: admin@vetclinic.com, vet@vetclinic.com, owner@vetclinic.com (all password: password123)"
+
 puts "Seeds finished successfully! 🐾"

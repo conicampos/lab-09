@@ -1,4 +1,8 @@
 class PetsController < ApplicationController
+  # Esta línea permite ver el INDEX sin estar logueado. 
+  # El resto de acciones (show, edit, etc.) pedirán login automáticamente.
+  skip_before_action :authenticate_user!, only: [:index]
+  
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index

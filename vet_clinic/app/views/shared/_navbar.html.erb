@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+  <div class="container">
+    <%= link_to "VetClinic", root_path, class: "navbar-brand fw-bold" %>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><%= link_to "Pets", pets_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Owners", owners_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Vets", vets_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Appointments", appointments_path, class: "nav-link" %></li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto align-items-center">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="me-1"><%= "#{current_user.first_name} #{current_user.last_name}" %></span>
+              <span class="badge bg-light text-primary"><%= current_user.role.capitalize %></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+              <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%# Importante: button_to con method: :delete para cumplir con el requisito del Lab %>
+                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger", data: { turbo: false } %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light btn-sm text-primary fw-bold" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
