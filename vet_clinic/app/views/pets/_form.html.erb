@@ -26,10 +26,12 @@
     <%= f.number_field :weight, step: :any, class: "form-control" %>
   </div>
 
-  <div class="mb-3">
-    <%= f.label :owner_id, "Owner", class: "form-label" %>
-    <%= f.collection_select :owner_id, Owner.all, :id, :last_name, { prompt: "Select an Owner" }, { class: "form-select" } %>
-  </div>
+  <% if policy(pet).permitted_attributes.include?(:owner_id) %>
+    <div class="mb-3">
+      <%= f.label :owner_id, "Owner", class: "form-label" %>
+      <%= f.collection_select :owner_id, Owner.all, :id, :last_name, { prompt: "Select an Owner" }, { class: "form-select" } %>
+    </div>
+  <% end %>
 
   <%#foto %>
   <div class="mb-3">

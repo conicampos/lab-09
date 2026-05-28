@@ -1,5 +1,10 @@
 <div class="container">
-  <h1 class="my-4">Veterinarians</h1>
+  <div class="d-flex justify-content-between align-items-center my-4">
+    <h1>Veterinarians</h1>
+    <% if policy(Vet).new? %>
+      <%= link_to "New Vet", new_vet_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
   <table class="table table-hover table-bordered">
     <thead class="table-dark">
       <tr>
@@ -17,6 +22,9 @@
           <td><span class="badge bg-secondary"><%= vet.specialization %></span></td>
           <td>
             <%= link_to "View Details", vet_path(vet), class: "btn btn-sm btn-outline-info" %>
+            <% if policy(vet).edit? %>
+              <%= link_to "Edit", edit_vet_path(vet), class: "btn btn-sm btn-outline-warning" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

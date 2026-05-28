@@ -3,7 +3,9 @@
     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
       <h2 class="mb-0">Pet Profile: <%= @pet.name %></h2>
       <div>
-        <%= link_to "Edit Pet", edit_pet_path(@pet), class: "btn btn-light btn-sm" %>
+        <% if policy(@pet).edit? %>
+          <%= link_to "Edit Pet", edit_pet_path(@pet), class: "btn btn-light btn-sm" %>
+        <% end %>
       </div>
     </div>
     <div class="card-body">
@@ -61,7 +63,9 @@
     </div>
     <div class="card-footer d-flex justify-content-between">
       <%= link_to "Back to Pets", pets_path, class: "btn btn-secondary" %>
-      <%= button_to "Delete Pet", @pet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <% if policy(@pet).destroy? %>
+        <%= button_to "Delete Pet", @pet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <% end %>
     </div>
   </div>
 </div>

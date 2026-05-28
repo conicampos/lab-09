@@ -16,12 +16,7 @@
 
     <div class="container mt-4">
       <%# Mensajes Flash (Avisos de éxito o error) %>
-      <% flash.each do |type, message| %>
-        <div class="alert alert-<%= type == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
-          <%= message %>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      <% end %>
+      <%= render "layouts/flash" %>
 
       <%# Aquí se carga el contenido de cada página %>
       <%= yield %>

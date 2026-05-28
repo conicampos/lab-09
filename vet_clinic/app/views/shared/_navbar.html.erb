@@ -8,10 +8,22 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><%= link_to "Pets", pets_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Owners", owners_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Vets", vets_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Appointments", appointments_path, class: "nav-link" %></li>
+        <% if user_signed_in? %>
+          <% if current_user.owner? && current_user.owner.present? %>
+            <li class="nav-item"><%= link_to "My account", owner_path(current_user.owner), class: "nav-link" %></li>
+          <% elsif policy(Owner).index? %>
+            <li class="nav-item"><%= link_to "Owners", owners_path, class: "nav-link" %></li>
+          <% end %>
+          <% if policy(Pet).index? %>
+            <li class="nav-item"><%= link_to "Pets", pets_path, class: "nav-link" %></li>
+          <% end %>
+          <% if policy(Vet).index? %>
+            <li class="nav-item"><%= link_to "Vets", vets_path, class: "nav-link" %></li>
+          <% end %>
+          <% if policy(Appointment).index? %>
+            <li class="nav-item"><%= link_to "Appointments", appointments_path, class: "nav-link" %></li>
+          <% end %>
+        <% end %>
       </ul>
 
       <ul class="navbar-nav ms-auto align-items-center">
@@ -22,8 +34,6 @@
               <span class="badge bg-light text-primary"><%= current_user.role.capitalize %></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
-              <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %></li>
-              <li><hr class="dropdown-divider"></li>
               <li>
                 <%# Importante: button_to con method: :delete para cumplir con el requisito del Lab %>
                 <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger", data: { turbo: false } %>
@@ -33,9 +43,6 @@
         <% else %>
           <li class="nav-item">
             <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item ms-lg-2">
-            <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light btn-sm text-primary fw-bold" %>
           </li>
         <% end %>
       </ul>

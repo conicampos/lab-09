@@ -1,6 +1,9 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
+
+  has_one :owner, dependent: :nullify
+  has_one :vet, dependent: :nullify
 
   # Validaciones
   validates :first_name, :last_name, presence: true

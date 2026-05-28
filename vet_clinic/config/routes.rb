@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  # Indica que la página principal es el index de pets
-  root to: "pets#index"
+  root to: "home#index"
   
-  devise_for :users
+  devise_for :users, skip: [:registrations]
   
   resources :pets
   resources :owners
   resources :vets
-  resources :appointments
-  resources :treatments
+  resources :appointments do
+    resources :treatments, except: [:index, :show]
+  end
 end

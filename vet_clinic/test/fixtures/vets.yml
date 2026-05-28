@@ -3,6 +3,7 @@ one:
   last_name: "House"
   email: "house@clinic.com"
   specialization: "Diagnostics"
+  user: vet_user
 
 two:
   first_name: "Allison"

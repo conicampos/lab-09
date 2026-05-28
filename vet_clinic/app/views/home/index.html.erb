@@ -1,0 +1,13 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="mb-3">VetClinic</h1>
+      <p class="lead text-muted mb-4">Sign in to manage clinic owners, pets, veterinarians, appointments, and treatments.</p>
+      <% if user_signed_in? %>
+        <%= link_to "Go to Pets", pets_path, class: "btn btn-primary" %>
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

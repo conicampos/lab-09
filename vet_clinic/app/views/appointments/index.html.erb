@@ -1,7 +1,9 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Appointments</h1>
-    <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary" %>
+    <% if policy(Appointment).new? %>
+      <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary" %>
+    <% end %>
   </div>
 
   <table class="table table-striped">
@@ -21,8 +23,12 @@
           <td><span class="badge bg-secondary"><%= appointment.status.humanize %></span></td>
           <td class="d-flex gap-2">
             <%= link_to "Show", appointment, class: "btn btn-sm btn-info" %>
-            <%= link_to "Edit", edit_appointment_path(appointment), class: "btn btn-sm btn-warning" %>
-            <%= button_to "Delete", appointment, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            <% if policy(appointment).edit? %>
+              <%= link_to "Edit", edit_appointment_path(appointment), class: "btn btn-sm btn-warning" %>
+            <% end %>
+            <% if policy(appointment).destroy? %>
+              <%= button_to "Delete", appointment, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

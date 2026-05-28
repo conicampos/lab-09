@@ -3,6 +3,7 @@ one:
   last_name: "Perez"
   email: "juan@gmail.com"
   phone: "123456789"
+  user: owner_user
 
 two:
   first_name: "Maria"

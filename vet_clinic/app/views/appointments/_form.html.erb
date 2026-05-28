@@ -14,11 +14,14 @@
   </div>
   <div class="mb-3">
     <%= f.label :pet_id, "Pet", class: "form-label" %>
-    <%= f.collection_select :pet_id, Pet.all, :id, :name, { prompt: "Select Pet" }, { class: "form-select" } %>
+    <% pet_options = policy(appointment).permitted_attributes.include?(:pet_id) ? Pet.all : (current_user.owner&.pets || Pet.none) %>
+    <%= f.collection_select :pet_id, pet_options, :id, :name, { prompt: "Select Pet" }, { class: "form-select", disabled: appointment.persisted? && !policy(appointment).permitted_attributes.include?(:pet_id) } %>
   </div>
-  <div class="mb-3">
-    <%= f.label :vet_id, "Vet", class: "form-label" %>
-    <%= f.collection_select :vet_id, Vet.all, :id, :last_name, { prompt: "Select Vet" }, { class: "form-select" } %>
-  </div>
+  <% if policy(appointment).permitted_attributes.include?(:vet_id) %>
+    <div class="mb-3">
+      <%= f.label :vet_id, "Vet", class: "form-label" %>
+      <%= f.collection_select :vet_id, Vet.all, :id, :last_name, { prompt: "Select Vet" }, { class: "form-select" } %>
+    </div>
+  <% end %>
   <%= f.submit class: "btn btn-primary" %>
 <% end %>

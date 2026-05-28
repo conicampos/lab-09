@@ -3,7 +3,9 @@
     <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
       <h2 class="mb-0">Owner Details</h2>
       <div>
-        <%= link_to "Edit Owner", edit_owner_path(@owner), class: "btn btn-light btn-sm" %>
+        <% if policy(@owner).edit? %>
+          <%= link_to "Edit Owner", edit_owner_path(@owner), class: "btn btn-light btn-sm" %>
+        <% end %>
       </div>
     </div>
     <div class="card-body">
@@ -36,8 +38,14 @@
       <% end %>
     </div>
     <div class="card-footer d-flex justify-content-between">
-      <%= link_to "Back to Owners", owners_path, class: "btn btn-secondary" %>
-      <%= button_to "Delete Owner", @owner, method: :delete, data: { turbo_confirm: "Are you sure? This will delete all associated pets and appointments." }, class: "btn btn-danger" %>
+      <% if current_user.owner? %>
+        <%= link_to "Back to Pets", pets_path, class: "btn btn-secondary" %>
+      <% else %>
+        <%= link_to "Back to Owners", owners_path, class: "btn btn-secondary" %>
+      <% end %>
+      <% if policy(@owner).destroy? %>
+        <%= button_to "Delete Owner", @owner, method: :delete, data: { turbo_confirm: "Are you sure? This will delete all associated pets and appointments." }, class: "btn btn-danger" %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -3,7 +3,9 @@
     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
       <h2 class="mb-0">Veterinarian Profile</h2>
       <div>
-        <%= link_to "Edit Vet", edit_vet_path(@vet), class: "btn btn-light btn-sm" %>
+        <% if policy(@vet).edit? %>
+          <%= link_to "Edit Vet", edit_vet_path(@vet), class: "btn btn-light btn-sm" %>
+        <% end %>
       </div>
     </div>
     <div class="card-body">
@@ -47,7 +49,9 @@
     </div>
     <div class="card-footer d-flex justify-content-between">
       <%= link_to "Back to Vets", vets_path, class: "btn btn-secondary" %>
-      <%= button_to "Delete Vet", @vet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <% if policy(@vet).destroy? %>
+        <%= button_to "Delete Vet", @vet, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <% end %>
     </div>
   </div>
 </div>
