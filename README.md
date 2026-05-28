@@ -1,12 +1,15 @@
-# Lab 8 - VetClinic (Authentication)
+# Lab 9 - VetClinic (Authorization with Pundit)
 
-For this lab, I installed **Devise** to make the VetClinic application private. Now, you must have an account to view owners, vets, or appointments.
+For this lab, I installed **Pundit** to add authorization to the VetClinic application. Now, signed-in users can only access the records and actions allowed for their role.
 
 ## Changes made:
-* **User Model:** I added `first_name`, `last_name`, and `role` (using an enum).
-* **Home Page:** I kept the pets index public so anyone can see the main page, but everything else requires a login.
-* **Forms:** I styled the Devise views with Bootstrap to make them look good and added the name and last name fields to the sign-up form.
-* **Navbar:** The navbar now shows the user's name and role when logged in, and shows the Sign In / Sign Up buttons when they are not. The sign-out button uses the DELETE method as required.
+* **Pundit Setup:** I added Pundit, included it in `ApplicationController`, and added authorization checks for controller actions.
+* **Policies:** I created policies for Owners, Pets, Vets, Appointments, and Treatments.
+* **User Links:** I linked `Owner` and `Vet` records to `User` accounts using `user_id`.
+* **Registration Disabled:** I removed open sign-up, so users must be created through seeds or the Rails console.
+* **Authorization Rules:** Admins can manage everything. Vets can manage only their assigned appointments and treatments. Owners can manage only their own owner record, pets, and appointments.
+* **Navbar and Buttons:** The navbar and action buttons now change depending on what the signed-in user is allowed to do.
+* **Seeds:** I updated the seeds so the admin, vet, and owner users are linked to the correct demo data.
 
 ## Test Users (Seeds)
 
@@ -22,5 +25,3 @@ I added these users to the `db/seeds.rb` file. All of them use the same password
 1. `bundle install`
 2. `bin/rails db:drop db:create db:migrate db:seed`
 3. `bin/rails s`
-
-
